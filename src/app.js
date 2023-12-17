@@ -5,7 +5,7 @@ import { loginPage } from "./views/loginPage.js";
 import { registerPage } from "./views/registerPage.js";
 import { searchPage } from "./views/searchPage.js";
 
-page(userSession)
+page(userSession);
 page(navigation);
 page(renderContent);
 
