@@ -1,10 +1,11 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { setUserData } from "../utils.js";
 
-const registerTemplate = () => html`
+const registerTemplate = (onSubmit) => html`
   <section id="register">
     <div class="form">
       <h2>Register</h2>
-      <form class="register-form">
+      <form @submit="${onSubmit}" class="register-form">
         <input
           type="text"
           name="email"
@@ -24,12 +25,42 @@ const registerTemplate = () => html`
           placeholder="repeat password"
         />
         <button type="submit">register</button>
-        <p class="message">Already registered? <a href="#">Login</a></p>
+        <p class="message">Already registered? <a href="/login">Login</a></p>
       </form>
     </div>
   </section>
 `;
 
 export const registerPage = (ctx) => {
-  ctx.render(registerTemplate());
+  ctx.render(registerTemplate(onSubmit));
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { email, password } = Object.fromEntries(formData);
+
+   
+
+   
+
+    const url = `http://localhost:3030/users/register`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        setUserData(responseData);
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error.message);
+    }
+  }
 };
