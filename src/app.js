@@ -3,6 +3,8 @@ import { navigation, renderContent } from "./middleware/render.js";
 import { userSession } from "./middleware/userSession.js";
 import { catalogPage } from "./views/catalogPage.js";
 import { createPage } from "./views/createPage.js";
+import { detailsPage } from "./views/detailsPage.js";
+import { editPage } from "./views/editPage.js";
 import { homePage } from "./views/homePage.js";
 import { loginPage } from "./views/loginPage.js";
 import { logout } from "./views/logout.js";
@@ -20,5 +22,8 @@ page("/logout", logout);
 page("/cars",catalogPage);
 page("/user/profile",createPage)
 page("/search", searchPage);
+page("/details/:id", detailsPage);
+page("/edit/:id", editPage);
+
 
 page.start();
