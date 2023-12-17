@@ -38,10 +38,13 @@ export const registerPage = (ctx) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const { email, password } = Object.fromEntries(formData);
-
-   
-
-   
+    const rePassword = formData.get("re-password")
+    
+    if(email === "" || password === "" || rePassword === ""){
+      return alert("All fields are required!")
+    }else if(password !== rePassword){
+      return alert("Password don\'t match!")
+    }
 
     const url = `http://localhost:3030/users/register`;
 
