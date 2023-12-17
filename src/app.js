@@ -3,6 +3,7 @@ import { navigation, renderContent } from "./middleware/render.js";
 import { userSession } from "./middleware/userSession.js";
 import { homePage } from "./views/homePage.js";
 import { loginPage } from "./views/loginPage.js";
+import { logout } from "./views/logout.js";
 import { registerPage } from "./views/registerPage.js";
 import { searchPage } from "./views/searchPage.js";
 
@@ -14,6 +15,7 @@ page(renderContent);
 page("/", homePage);
 page("/register", registerPage);
 page("/login", loginPage);
+page("/logout",logout)
 page("/search", searchPage);
 
 page.start();
