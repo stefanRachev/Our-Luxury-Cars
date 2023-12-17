@@ -59,6 +59,8 @@ export const registerPage = (ctx) => {
       if (response.ok) {
         const responseData = await response.json();
         setUserData(responseData);
+        e.target.reset();
+        ctx.page.redirect("/");
       } else {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -66,4 +68,6 @@ export const registerPage = (ctx) => {
       console.error("Error during registration:", error.message);
     }
   }
+
+  
 };
