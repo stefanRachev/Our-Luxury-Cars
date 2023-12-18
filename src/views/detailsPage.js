@@ -46,13 +46,12 @@ export const detailsPage = async (ctx) => {
 
   if (response.ok) {
     const car = await response.json();
-    
+
     ctx.render(detailsTemplate(car, owner, onDelete));
   } else {
     console.error(`HTTP error! Status: ${response.status}`);
   }
 
-  
   async function onDelete(e) {
     e.preventDefault();
     const url = `http://localhost:3030/data/cars/${id}`;
