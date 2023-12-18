@@ -12,7 +12,6 @@ const detailsTemplate = (car, owner) => html`
           <p class="top-speed">Top Speed: ${car.speed}</p>
           <p id="car-description">${car.about}</p>
         </div>
-        <!--Edit and Delete are only for creator-->
         ${car._ownerId === owner
           ? html`
               <div id="action-buttons">
@@ -29,7 +28,6 @@ const detailsTemplate = (car, owner) => html`
 export const detailsPage = async (ctx) => {
   const id = ctx.params.id;
   const owner = ctx.user._id;
-  console.log(owner);
 
   const url = `http://localhost:3030/data/cars/${id}`;
 
@@ -42,7 +40,7 @@ export const detailsPage = async (ctx) => {
 
   if (response.ok) {
     const car = await response.json();
-    console.log(car);
+
     ctx.render(detailsTemplate(car,owner));
   } else {
     console.error(`HTTP error! Status: ${response.status}`);
