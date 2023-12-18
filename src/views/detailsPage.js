@@ -32,8 +32,8 @@ const detailsTemplate = (car, owner, onDelete) => html`
 
 export const detailsPage = async (ctx) => {
   const id = ctx.params.id;
-  const owner = ctx.user._id;
-  const token = ctx.user.accessToken;
+  const owner = ctx.user ? ctx.user._id : null;
+  const token = ctx.user?.accessToken || null;
 
   const url = `http://localhost:3030/data/cars/${id}`;
 
