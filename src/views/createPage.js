@@ -1,10 +1,11 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { getAccessToken } from "../utils.js";
 
-const createTemplate = () => html`
+const createTemplate = (onSubmit) => html`
   <section id="create">
     <div class="form form-auto">
       <h2>Share Your Car</h2>
-      <form class="create-form">
+      <form @submit="${onSubmit}" class="create-form">
         <input type="text" name="model" id="model" placeholder="Model" />
         <input
           type="text"
@@ -44,5 +45,49 @@ const createTemplate = () => html`
 `;
 
 export const createPage = (ctx) => {
-  ctx.render(createTemplate());
+  const token = ctx.user.accessToken;
+
+  ctx.render(createTemplate(onSubmit));
+
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    const formData = Object.fromEntries(new FormData(e.target));
+    if (Object.values(formData).some((el) => el === "")) {
+      return alert("All fields are required!");
+    } else if (formData.weight < 1) {
+      return alert("All fields are required!");
+    }
+    const data = {
+      model: formData.model,
+      imageUrl: formData.imageUrl,
+      price: formData.price,
+      weight: formData.weight,
+      speed: formData.speed,
+      about: formData.about,
+    };
+    
+    const url = "http://localhost:3030/data/cars";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": token,
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const responseData = response.json();
+
+        e.target.reset();
+        ctx.page.redirect("/cars");
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error.message);
+    }
+  }
 };

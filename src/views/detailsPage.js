@@ -41,7 +41,7 @@ export const detailsPage = async (ctx) => {
   if (response.ok) {
     const car = await response.json();
 
-    ctx.render(detailsTemplate(car,owner));
+    ctx.render(detailsTemplate(car, owner));
   } else {
     console.error(`HTTP error! Status: ${response.status}`);
   }
