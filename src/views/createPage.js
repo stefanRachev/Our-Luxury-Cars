@@ -66,7 +66,7 @@ export const createPage = (ctx) => {
       speed: formData.speed,
       about: formData.about,
     };
-    
+
     const url = "http://localhost:3030/data/cars";
 
     try {
@@ -79,7 +79,7 @@ export const createPage = (ctx) => {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        const responseData = response.json();
+        const responseData = await response.json();
 
         e.target.reset();
         ctx.page.redirect("/cars");

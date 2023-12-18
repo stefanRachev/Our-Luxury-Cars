@@ -1,6 +1,6 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 
-const detailsTemplate = (car, owner) => html`
+const detailsTemplate = (car, owner, onDelete) => html`
   <section id="details">
     <div id="details-wrapper">
       <img id="details-img" src="${car.imageUrl}" alt="example1" />
@@ -15,8 +15,13 @@ const detailsTemplate = (car, owner) => html`
         ${car._ownerId === owner
           ? html`
               <div id="action-buttons">
-                <a href="" id="edit-btn">Edit</a>
-                <a href="" id="delete-btn">Delete</a>
+                <a href="/edit/${car._id}" id="edit-btn">Edit</a>
+                <a
+                  @click="${onDelete}"
+                  href="javascript:void(0)"
+                  id="delete-btn"
+                  >Delete</a
+                >
               </div>
             `
           : ""}
@@ -28,6 +33,7 @@ const detailsTemplate = (car, owner) => html`
 export const detailsPage = async (ctx) => {
   const id = ctx.params.id;
   const owner = ctx.user._id;
+  const token = ctx.user.accessToken;
 
   const url = `http://localhost:3030/data/cars/${id}`;
 
@@ -40,9 +46,25 @@ export const detailsPage = async (ctx) => {
 
   if (response.ok) {
     const car = await response.json();
-
-    ctx.render(detailsTemplate(car, owner));
+    
+    ctx.render(detailsTemplate(car, owner, onDelete));
   } else {
     console.error(`HTTP error! Status: ${response.status}`);
+  }
+
+  
+  async function onDelete(e) {
+    e.preventDefault();
+    const url = `http://localhost:3030/data/cars/${id}`;
+
+    await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": token,
+      },
+    });
+
+    ctx.page.redirect("/cars");
   }
 };

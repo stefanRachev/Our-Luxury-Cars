@@ -62,6 +62,8 @@ export const registerPage = (ctx) => {
         e.target.reset();
         ctx.page.redirect("/");
       } else {
+        
+        alert(response.status);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (error) {
