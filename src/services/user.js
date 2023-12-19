@@ -7,19 +7,19 @@ const endPoints = {
   logout: "/users/logout",
 };
 
-export const register = async (email, password) => {
+export const registerUser = async (email, password) => {
   const result = await request.post(endPoints.register, { email, password });
   utils.setUserData();
   return result;
 };
 
-export const login = async (email, password) => {
+export const loginUser = async (email, password) => {
   const result = await request.post(endPoints.login, { email, password });
   utils.setUserData();
   return result;
 };
 
-export const logout = async () => {
+export const logoutUser = async () => {
   request.get(endPoints.logout);
   utils.clearUserData();
 };
