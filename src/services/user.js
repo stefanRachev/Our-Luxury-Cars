@@ -9,13 +9,13 @@ const endPoints = {
 
 export const registerUser = async (email, password) => {
   const result = await request.post(endPoints.register, { email, password });
-  utils.setUserData();
+  utils.setUserData(result);
   return result;
 };
 
 export const loginUser = async (email, password) => {
   const result = await request.post(endPoints.login, { email, password });
-  utils.setUserData();
+  utils.setUserData(result);
   return result;
 };
 

@@ -1,5 +1,6 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { setUserData } from "../utils.js";
+//import { setUserData } from "../utils.js";
+import { loginUser } from "../services/user.js";
 
 const loginTemplate = (onSubmit) => html`
   <section id="login">
@@ -31,29 +32,33 @@ export const loginPage = (ctx) => {
     const formData = Object.fromEntries(new FormData(e.target));
 
     if (Object.values(formData).some((el) => el === "")) {
-     return alert("All fields are required!");
+      return alert("All fields are required!");
     }
+    
+    loginUser(formData.email, formData.password);
+    e.target.reset();
+    ctx.page.redirect("/");
 
-    const url = `http://localhost:3030/users/login`;
+    // const url = `http://localhost:3030/users/login`;
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "Application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        const responseData = await response.json();
-        setUserData(responseData);
-        e.target.reset();
-        ctx.page.redirect("/");
-      } else {
-        alert(`HTTP error! Status: ${response.status}`);
-      }
-    } catch (err) {
-      console.error("Error during registration:", err.message);
-    }
+    // try {
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "Application/json",
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+    //   if (response.ok) {
+    //     const responseData = await response.json();
+    //     setUserData(responseData);
+    //     e.target.reset();
+    //     ctx.page.redirect("/");
+    //   } else {
+    //     alert(`HTTP error! Status: ${response.status}`);
+    //   }
+    // } catch (err) {
+    //   console.error("Error during registration:", err.message);
+    // }
   }
 };
