@@ -7,7 +7,7 @@ export const getUserData = () => JSON.parse(localStorage.getItem("user"));
 export const getAccessToken = () => {
   const user = getUserData();
   if (user) {
-    return user.getAccessToken;
+    return user.accessToken;
   } else {
     return null;
   }

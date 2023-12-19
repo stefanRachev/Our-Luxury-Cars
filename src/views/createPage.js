@@ -45,7 +45,7 @@ const createTemplate = (onSubmit) => html`
 `;
 
 export const createPage = (ctx) => {
-  const token = ctx.user.accessToken;
+  const token = getAccessToken();
 
   ctx.render(createTemplate(onSubmit));
 

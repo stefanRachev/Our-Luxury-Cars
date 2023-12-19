@@ -1,4 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { getAccessToken } from "../utils.js";
 
 const editTemplate = (car, onSubmit) => html`
   <section id="edit">
@@ -56,7 +57,7 @@ const editTemplate = (car, onSubmit) => html`
 
 export const editPage = async (ctx) => {
   const id = ctx.params.id;
-  const token = ctx.user.accessToken;
+  const token = getAccessToken();
 
   const url = `http://localhost:3030/data/cars/${id}`;
 

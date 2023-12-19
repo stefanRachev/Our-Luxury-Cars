@@ -1,4 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { getAccessToken } from "../utils.js";
 
 const detailsTemplate = (car, owner, onDelete) => html`
   <section id="details">
@@ -33,7 +34,7 @@ const detailsTemplate = (car, owner, onDelete) => html`
 export const detailsPage = async (ctx) => {
   const id = ctx.params.id;
   const owner = ctx.user ? ctx.user._id : null;
-  const token = ctx.user?.accessToken || null;
+  const token = getAccessToken();
 
   const url = `http://localhost:3030/data/cars/${id}`;
 

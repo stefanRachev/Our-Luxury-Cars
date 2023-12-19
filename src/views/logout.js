@@ -1,10 +1,12 @@
-import { clearUserData } from "../utils.js";
+import { clearUserData,getAccessToken } from "../utils.js";
 
-const url = "http://localhost:3030/users/logout";
+
 
 export const logout = async (ctx) => {
-  
-  const token = ctx.user.accessToken;
+
+  const url = "http://localhost:3030/users/logout";
+
+  const token = getAccessToken();
  
   const response = await fetch(url, {
     method: "GET",
