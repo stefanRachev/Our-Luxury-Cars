@@ -31,7 +31,7 @@ export const loginPage = (ctx) => {
     const formData = Object.fromEntries(new FormData(e.target));
 
     if (Object.values(formData).some((el) => el === "")) {
-      alert("All fields are required!");
+     return alert("All fields are required!");
     }
 
     const url = `http://localhost:3030/users/login`;
@@ -50,10 +50,10 @@ export const loginPage = (ctx) => {
         e.target.reset();
         ctx.page.redirect("/");
       } else {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        alert(`HTTP error! Status: ${response.status}`);
       }
     } catch (err) {
-      console.err("Error during registration:", err.message);
+      console.error("Error during registration:", err.message);
     }
   }
 };

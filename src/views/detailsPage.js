@@ -56,14 +56,16 @@ export const detailsPage = async (ctx) => {
     e.preventDefault();
     const url = `http://localhost:3030/data/cars/${id}`;
 
-    await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": token,
-      },
-    });
-
-    ctx.page.redirect("/cars");
+    const choice = confirm("Are you sure you wont to delete this car?");
+    if (choice) {
+      await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": token,
+        },
+      });
+      ctx.page.redirect("/cars");
+    }
   }
 };
