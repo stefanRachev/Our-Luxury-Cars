@@ -1,26 +1,57 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 
-const searchTemplate = () => html`
+const searchTemplate = (onSubmit, cars) => html`
   <section id="search">
     <div class="form">
       <h4>Search</h4>
-      <form class="search-form">
+      <form @submit="${onSubmit}" class="search-form">
         <input type="text" name="search" id="search-input" />
         <button class="button-list">Search</button>
       </form>
     </div>
     <div class="search-result">
-      <h2 class="no-avaliable">No result.</h2>
-      <!--If there are matches display a div with information about every motorcycle-->
-      <div class="car">
-        <img src="./images/pagani.jpg" alt="example1" />
-        <h3 class="model">Pagani Huayrat</h3>
-        <a class="details-btn" href="#">More Info</a>
-      </div>
+      ${cars.length < 1
+        ? html` <h2 class="no-avaliable">No result.</h2> `
+        : html`
+         ${cars.map(
+           (car) => html` <div class="car">
+             <img src="${car.imageUrl}" alt="example1" />
+             <h3 class="model">${car.model}</h3>
+             <a class="details-btn" href="/details/${car._id}">More Info</a>
+           </div>`
+         )}
+       
+    </div>
+  </section>
+      `}
     </div>
   </section>
 `;
 
 export const searchPage = (ctx) => {
-  ctx.render(searchTemplate());
+  const cars = [];
+  ctx.render(searchTemplate(onSubmit, cars));
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    // const formData = Object.fromEntries(new FormData(e.target));
+    const formData = new FormData(e.target);
+    const query = formData.get("search").trim().toLowerCase();
+    if (query === "") {
+      return alert("Field are required!");
+    }
+
+    const url = `http://localhost:3030/data/cars?where=model%20LIKE%20%22${query}%22`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const cars = await response.json();
+      ctx.render(searchTemplate(onSubmit, cars));
+    }
+  }
 };

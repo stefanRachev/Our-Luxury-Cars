@@ -57,8 +57,6 @@ const editTemplate = (car, onSubmit) => html`
 export const editPage = async (ctx) => {
   const id = ctx.params.id;
   const token = ctx.user.accessToken;
-  console.log(token);
-  console.log(id);
 
   const url = `http://localhost:3030/data/cars/${id}`;
 
